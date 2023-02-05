@@ -1,18 +1,46 @@
 import { useEffect, useState } from 'react';
-import { Helmet } from 'react-helmet';
-import CourseListing from '../components/course-listing/CourseListing';
-// import NewCourseForm from '../components/new-course-form/NewCourseForm';
-import PageContainer from '../components/page-container/PageContainer';
-import PageSeparator from '../components/page-container/PageSeparator';
 import { Pet, getAllPets } from '../services/pets';
+import { Table } from 'antd';
+import type { ColumnsType } from 'antd/es/table';
+
+const columns: ColumnsType<Pet> = [
+  {
+    title: 'Name',
+    dataIndex: 'name',
+    key: 'name',
+    /* render: (text) => <a>{text}</a>, */
+  },
+  {
+    title: 'Id',
+    dataIndex: 'id',
+    key: 'id',
+  },
+  {
+    title: 'PetType',
+    dataIndex: 'pet_type',
+    key: 'pet_type',
+  },
+];
+
+const data: Pet[] = [
+  {
+    id: '1',
+    name: 'John Brown',
+    pet_type: 'New York No. 1 Lake Park',
+  },
+  {
+    id: '2',
+    name: 'Jim Green',
+    pet_type: 'London No. 1 Lake Park',
+  },
+];
+
 
 function Pets() {
-  const [alert, setAlert] = useState('');
   const [pets, setPets] = useState<Pet[]>([]);
 
   const handleSuccess = (pet: Pet) => {
     setPets([...pets, { ...pet }]);
-    setAlert(`Felicidades, el curso ${pet.id} ha sido creado correctamente!`);
   };
 
   useEffect(() => {
@@ -26,20 +54,7 @@ function Pets() {
 
   return (
     <div className="container mx-auto px-4 p-5">
-      <Helmet>
-        <title>CodelyTV | Cursos</title>
-      </Helmet>
-
-      <PageContainer title="Cursos" alert={alert}>
-        {/* <NewCourseForm
-          onSuccess={handleSuccess}
-          onError={() => setAlert('Lo siento, ha ocurrido un error al crear el curso')}
-        /> */}
-
-        <PageSeparator />
-
-        <CourseListing pets={pets} onFilter={pets => setPets(pets)} />
-      </PageContainer>
+       <Table columns={columns} dataSource={data} /> 
     </div>
   );
 }
