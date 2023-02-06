@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import { Pet, getAllPets } from '../services/pets';
+import GetPets, { PetJson } from '../services/pets';
 import { Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 
-const columns: ColumnsType<Pet> = [
+const columns: ColumnsType<PetJson> = [
   {
     title: 'Name',
     dataIndex: 'name',
@@ -21,31 +21,28 @@ const columns: ColumnsType<Pet> = [
     key: 'pet_type',
   },
 ];
-
-const data: Pet[] = [
-  {
-    id: '1',
-    name: 'John Brown',
-    pet_type: 'New York No. 1 Lake Park',
-  },
-  {
-    id: '2',
-    name: 'Jim Green',
-    pet_type: 'London No. 1 Lake Park',
-  },
-];
+/**/
+/* const data: Pet[] = [ */
+/*   { */
+/*     id: '1', */
+/*     name: 'John Brown', */
+/*     pet_type: 'New York No. 1 Lake Park', */
+/*   }, */
+/*   { */
+/*     id: '2', */
+/*     name: 'Jim Green', */
+/*     pet_type: 'London No. 1 Lake Park', */
+/*   }, */
+/* ]; */
 
 
 function Pets() {
-  const [pets, setPets] = useState<Pet[]>([]);
+  const [pets, setPets] = useState<PetJson[]>([]);
 
-  const handleSuccess = (pet: Pet) => {
-    setPets([...pets, { ...pet }]);
-  };
 
   useEffect(() => {
     const fetchData = async () => {
-      const pets = await getAllPets();
+      const pets = await GetPets();
       setPets(pets);
     };
 
@@ -54,7 +51,7 @@ function Pets() {
 
   return (
     <div className="container mx-auto px-4 p-5">
-       <Table columns={columns} dataSource={data} /> 
+       <Table columns={columns} dataSource={pets} /> 
     </div>
   );
 }

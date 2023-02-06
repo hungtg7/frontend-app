@@ -1,43 +1,55 @@
-export type Pet = {
+import * as grpc from '@grpc/grpc-js';
+import { PetStoreClient } from '../../pkg/proto_file/pet/pet_grpc_pb';
+import { GetAllPetRequest, Pet } from '../../pkg/proto_file/pet/pet_pb';
+
+export type PetJson = {
     id: string;
     name: string;
     pet_type: string;
-  };
-  
-  type Query = {
-    filters: Array<{ field: string; operator: string; value: string }>;
-  };
-  
-//   const post = async (url: string, body: Record<string, unknown>) => {
-//     await fetch(url, {
-//       method: 'POST',
-//       body: JSON.stringify({ ...body }),
-//       headers: { 'Content-Type': 'application/json' }
-//     });
-//   };
-  
-  const get = async (url: string) => {
-    return await fetch(url, {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' }
+  };  
+
+export default function GetPets() {
+    return new Promise<Pet[]>((resolve, reject) => {
+      const client = new PetStoreClient("pet:10550/pet.v1.PetStore/GetAllPet", grpc.credentials.createInsecure())
+
+      client.getAllPet(new GetAllPetRequest(), (err, resp) => {
+        if (err) reject(err);
+        else {
+            const pets = resp.getPetList()
+            resolve(pets)
+        };
+      });
     });
   };
-  
-//   export const createCourse = (course: Course) => post('http://localhost:3000/courses', course);
-  
-  export const getAllPets = async () => {
-    const response = await get('http://localhost:3000/pet');
-    return (await response.json()) as Pet[];
-  };
-  
-  export const searchCourses = async (query: Query) => {
-    const filters = query.filters.map(
-      (filter, index) =>
-        `filters[${index}][field]=${filter.field}&filters[${index}][operator]=${filter.operator}&filters[${index}][value]=${filter.value}`
-    );
-  
-    const params = filters.join('&');
-  
-    const response = await get(`http://localhost:3000/pet?${params}`);
-    return (await response.json()) as Pet[];
-  };
+
+  /* type Query = { */
+  /*   filters: Array<{ field: string; operator: string; value: string }>; */
+  /* }; */
+  /* const get = async (url: string) => { */
+  /*   return await fetch(url, { */
+  /*     method: 'GET', */
+  /*     headers: { 'Content-Type': 'application/json' } */
+  /*   }); */
+  /* }; */
+  /* export const getAllPets = async () => { */
+  /*   const client = new PetStoreClient("pet:10550/pet.v1.PetStore/GetAllPet", grpc.credentials.createInsecure()) */
+  /*   const response = await client.getAllPet(new Empty(), (err, pet) => { */
+  /*       if (err) { */
+  /*           return err */
+  /*       } */
+  /*       return pet */
+  /*   }); */
+  /*   return (await response.json()) as Pet[]; */
+  /* }; */
+
+  /* export const searchCourses = async (query: Query) => { */
+  /*   const filters = query.filters.map( */
+  /*     (filter, index) => */
+  /*       `filters[${index}][field]=${filter.field}&filters[${index}][operator]=${filter.operator}&filters[${index}][value]=${filter.value}` */
+  /*   ); */
+  /*  */
+  /*   const params = filters.join('&'); */
+  /*  */
+  /*   const response = await get(`http://localhost:3000/pet?${params}`); */
+  /*   return (await response.json()) as Pet[]; */
+  /* }; */
