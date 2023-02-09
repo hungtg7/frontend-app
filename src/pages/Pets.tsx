@@ -43,7 +43,19 @@ function Pets() {
   useEffect(() => {
     const fetchData = async () => {
       const pets = await GetPets();
-      setPets(pets);
+      var petsJson:PetJson[] = [];
+      for (var pet of pets)  {
+        var petJson:PetJson = {
+            id: pet.getId().toString(),
+            name:  pet.getName(),
+            pet_type: pet.getPetType(),
+        };
+        petJson.id = pet.getId().toString()
+        petJson.name = pet.getName()
+        petJson.pet_type = pet.getPetType()
+        petsJson.push(petJson)
+            }
+      setPets(petsJson);
     };
 
     fetchData();
