@@ -4,6 +4,6 @@ WORKDIR /src
 
 COPY . .
 
-RUN npm install
+RUN npm i
 
 CMD npm start

@@ -1,6 +1,5 @@
 import * as grpc from '@grpc/grpc-js';
-import { PetStoreClient } from '../../pkg/proto_file/pet/pet_grpc_pb';
-import { GetAllPetRequest, Pet } from '../../pkg/proto_file/pet/pet_pb';
+import { PetStoreClient, Pet, GetAllPetRequest } from '../pkg/pet';
 
 export type PetJson = {
     id: string;
@@ -11,11 +10,12 @@ export type PetJson = {
 export default function GetPets() {
     return new Promise<Pet[]>((resolve, reject) => {
       const client = new PetStoreClient("pet:10550/pet.v1.PetStore/GetAllPet", grpc.credentials.createInsecure())
+      const req = GetAllPetRequest.create()
 
-      client.getAllPet(new GetAllPetRequest(), (err, resp) => {
+      client.getAllPet(req, (err, resp) => {
         if (err) reject(err);
         else {
-            const pets = resp.getPetList()
+            const pets = resp.pet
             resolve(pets)
         };
       });

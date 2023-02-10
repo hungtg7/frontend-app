@@ -20,21 +20,7 @@ const columns: ColumnsType<PetJson> = [
     dataIndex: 'pet_type',
     key: 'pet_type',
   },
-];
-/**/
-/* const data: Pet[] = [ */
-/*   { */
-/*     id: '1', */
-/*     name: 'John Brown', */
-/*     pet_type: 'New York No. 1 Lake Park', */
-/*   }, */
-/*   { */
-/*     id: '2', */
-/*     name: 'Jim Green', */
-/*     pet_type: 'London No. 1 Lake Park', */
-/*   }, */
-/* ]; */
-
+]
 
 function Pets() {
   const [pets, setPets] = useState<PetJson[]>([]);
@@ -43,18 +29,18 @@ function Pets() {
   useEffect(() => {
     const fetchData = async () => {
       const pets = await GetPets();
-      var petsJson:PetJson[] = [];
-      for (var pet of pets)  {
-        var petJson:PetJson = {
-            id: pet.getId().toString(),
-            name:  pet.getName(),
-            pet_type: pet.getPetType(),
+      var petsJson: PetJson[] = [];
+      for (var pet of pets) {
+        var petJson: PetJson = {
+          id: pet.getId().toString(),
+          name: pet.getName(),
+          pet_type: pet.getPetType(),
         };
         petJson.id = pet.getId().toString()
         petJson.name = pet.getName()
         petJson.pet_type = pet.getPetType()
         petsJson.push(petJson)
-            }
+      }
       setPets(petsJson);
     };
 
@@ -63,7 +49,7 @@ function Pets() {
 
   return (
     <div className="container mx-auto px-4 p-5">
-       <Table columns={columns} dataSource={pets} /> 
+      <Table columns={columns} dataSource={pets} />
     </div>
   );
 }
