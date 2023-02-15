@@ -17,36 +17,18 @@ const columns: ColumnsType<Pet> = [
   },
   {
     title: 'PetType',
-    dataIndex: 'pet_type',
+    dataIndex: 'petType',
     key: 'pet_type',
   },
 ];
 
-const data: Pet[] = [
-  {
-    id: '1',
-    name: 'John Brown',
-    pet_type: 'New York No. 1 Lake Park',
-  },
-  {
-    id: '2',
-    name: 'Jim Green',
-    pet_type: 'London No. 1 Lake Park',
-  },
-];
-
-
 function Pets() {
   const [pets, setPets] = useState<Pet[]>([]);
 
-  const handleSuccess = (pet: Pet) => {
-    setPets([...pets, { ...pet }]);
-  };
-
   useEffect(() => {
     const fetchData = async () => {
-      const pets = await getAllPets();
-      setPets(pets);
+      const resp = await getAllPets();
+      setPets(resp.pet);
     };
 
     fetchData();
@@ -54,7 +36,7 @@ function Pets() {
 
   return (
     <div className="container mx-auto px-4 p-5">
-       <Table columns={columns} dataSource={data} /> 
+       <Table columns={columns} dataSource={pets}/> 
     </div>
   );
 }

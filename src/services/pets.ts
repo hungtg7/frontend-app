@@ -3,6 +3,10 @@ export type Pet = {
     name: string;
     pet_type: string;
   };
+
+export type Response = {
+    pet: Pet[]
+}
   
   type Query = {
     filters: Array<{ field: string; operator: string; value: string }>;
@@ -26,8 +30,8 @@ export type Pet = {
 //   export const createCourse = (course: Course) => post('http://localhost:3000/courses', course);
   
   export const getAllPets = async () => {
-    const response = await get('http://localhost:3000/pet');
-    return (await response.json()) as Pet[];
+    const response = await get('http://localhost:9090/pet/v1');
+    return (await response.json() as Response);
   };
   
   export const searchCourses = async (query: Query) => {
