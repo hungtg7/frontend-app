@@ -1,5 +1,0 @@
-version: v1
-plugins:
-  - name: ts
-    out: pkg
-    opt: paths=source_relative,require_unimplemented_servers=false
