@@ -5,6 +5,7 @@ export type Pet = {
   };
 
 export type Response = {
+    total: number
     pet: Pet[]
 }
   
@@ -29,19 +30,9 @@ export type Response = {
   
 //   export const createCourse = (course: Course) => post('http://localhost:3000/courses', course);
   
-  export const getAllPets = async () => {
-    const response = await get('http://localhost:9090/pet/v1');
+  export const getAllPets = async (limit: number, offset: number) => {
+    const url = `http://localhost:9090/pet/v1/getall?limit=${limit}&offset=${offset}`
+    const response = await get(url);
     return (await response.json() as Response);
   };
-  
-  export const searchCourses = async (query: Query) => {
-    const filters = query.filters.map(
-      (filter, index) =>
-        `filters[${index}][field]=${filter.field}&filters[${index}][operator]=${filter.operator}&filters[${index}][value]=${filter.value}`
-    );
-  
-    const params = filters.join('&');
-  
-    const response = await get(`http://localhost:3000/pet?${params}`);
-    return (await response.json()) as Pet[];
-  };
+
