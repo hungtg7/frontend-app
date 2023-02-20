@@ -1,4 +1,4 @@
-export type Pet = {
+export type PetJson = {
     id: string;
     name: string;
     pet_type: string;
@@ -6,7 +6,7 @@ export type Pet = {
 
 export type Response = {
     total: number
-    pet: Pet[]
+    pet: PetJson[]
 }
   
   type Query = {

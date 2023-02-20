@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import { Pet, getAllPets } from '../services/pets';
-import { Table, Pagination, PaginationProps } from 'antd';
+import { PetJson, getAllPets } from '../services/pets';
+import { Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 
-const columns: ColumnsType<Pet> = [
+const columns: ColumnsType<PetJson> = [
   {
     title: 'Name',
     dataIndex: 'name',
@@ -26,7 +26,7 @@ function Pets() {
   let tempOffset = 0
   
   const defaultLimit = 10
-  const [pets, setPets] = useState<Pet[]>([]);
+  const [pets, setPets] = useState<PetJson[]>([]);
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1)
   const [offset, setCurrentOffset] = useState(0)
